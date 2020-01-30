@@ -34,7 +34,8 @@ timesystem =
 - 航天器方位角、高低角、距离、方位角变化率、高低角变化率和距离变化率
 
 算出
--  测站位置（在地心惯性系下）
+- 测站位置（在地心惯性系下）
+- 航天器方向余弦（测站地平坐标系下）
 - 航天器位置（在地心惯性系下）
 - 航天器速度（在地心惯性系下）
 
@@ -56,6 +57,7 @@ observationstation =
        Delevation: [30×1 double]
         Ddistance: [30×1 double]
        stationPos: [30×3 double]
+    spacecraftDir: [30×3 double]
     spacecraftPos: [30×3 double]
     spacecraftVel: [30×3 double]
 ```

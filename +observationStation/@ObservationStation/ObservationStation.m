@@ -14,6 +14,7 @@ classdef ObservationStation
         Delevation %仰角变化率，数组，rad/s
         Ddistance %航天器与测站的距离变化率，数组，m/s
         stationPos %测站位置（在地心惯性系下），数组，m
+        spacecraftDir %航天器方向余弦（测站地平坐标系下），数组
         spacecraftPos %航天器位置（在地心惯性系下），数组，m
         spacecraftVel %航天器速度（在地心惯性系下），数组，m/s
     end
@@ -34,6 +35,7 @@ classdef ObservationStation
                 obj.Delevation = Edot(i);
                 obj.Ddistance = Ddot(i);
                 obj.stationPos(:,i) = obj.stationpos();
+                obj.spacecraftDir(:,i) = obj.spacecraftdir();
                 C = obj.station2inertial(obj.s,obj.Glatitude);
                 obj.spacecraftPos(:,i) = obj.spacecraftpos(C,i);
                 obj.spacecraftVel(:,i) = obj.spacecraftvel(C,i);   
@@ -46,6 +48,7 @@ classdef ObservationStation
             obj.Delevation = Edot;
             obj.Ddistance = Ddot;
             obj.stationPos = obj.stationPos';
+            obj.spacecraftDir = obj.spacecraftDir';
             obj.spacecraftPos = obj.spacecraftPos';
             obj.spacecraftVel = obj.spacecraftVel';
         end
@@ -57,13 +60,17 @@ classdef ObservationStation
             stationpos = [xe*cos(obj.s),xe*sin(obj.s),ze]';
         end
 
+        function spacecraftdir = spacecraftdir(obj)
+            spacecraftdir = [cos(obj.elevation)*sin(obj.azimuth);cos(obj.elevation)*cos(obj.azimuth);sin(obj.elevation)];
+        end
+
         function C = station2inertial(obj,s_,B_)
             % 测站地平坐标系到地心惯性坐标系的转换,输入单位为rad
             C=[-sin(s_),-cos(s_)*sin(B_),cos(s_)*cos(B_);cos(s_),-sin(s_)*sin(B_),sin(s_)*cos(B_);0,cos(B_),sin(B_)];
         end
         
         function spacecraftpos = spacecraftpos(obj,C,i) 
-            rou = obj.distance*[cos(obj.elevation)*sin(obj.azimuth),cos(obj.elevation)*cos(obj.azimuth),sin(obj.elevation)]';
+            rou = obj.distance*obj.spacecraftDir(:,i);
             spacecraftpos = obj.stationPos(:,i) + C*rou;
         end
 
