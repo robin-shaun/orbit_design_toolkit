@@ -3,21 +3,21 @@ classdef TimeSystem
     %   Detailed explanation goes here
     
     properties
-        UTC %协调世界时
-        lambdaG % 地理经度
-        lambda %极移修正后的经度，由于极移数据不易获取，这里认为等于地理经度
-        TAI %国际原子时
-        TT %地球时
-        TDT %地球动力时
-        ET %历书时
+        UTC %协调世界时，datatime
+        lambdaG % 地理经度，deg
+        lambda %极移修正后的经度，deg，由于极移数据不易获取，这里认为等于地理经度
+        TAI %国际原子时，datatime
+        TT %地球时，datatime
+        TDT %地球动力时，datatime
+        ET %历书时，datatime
         %TDB，质心动力时，不常用
         %TCG，地心坐标时，不常用
         %TCB，质心坐标时，不常用
-        UT1 %世界时, UT0和UT2不常用
-        Smean %格林尼治平恒星时
-        S %格林尼治真恒星时
-        smean %当地平恒星时
-        s %当地真恒星时
+        UT1 %世界时,datatime， UT0和UT2不常用
+        Smean %格林尼治平恒星时，秒
+        S %格林尼治真恒星时，秒
+        smean %当地平恒星时，秒
+        s %当地真恒星时,秒
     end
     
     methods
