@@ -3,7 +3,7 @@
 ## 1.天文学常数
 例如调用光速：`constants.AstroConstants.c`
 ## 2.时间系统
-时间系统对象的初始化输入为UTC(协调世界时间)和地理经度。时间数据类型为datetime或float（秒）。
+时间系统对象的初始化输入为UTC(协调世界时间)和地理经度。时间数据类型为datetime或double（秒）。
 UTC可以是数组，地理经度目前要求是标量。
 ```
 UTC = datetime(2019,11,27,21,10,10);
