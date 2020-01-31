@@ -1,6 +1,6 @@
 classdef TimeSystem
-    %时间系统类，初始化输入协调世界时（UTC），属性包含常用时间
-    %   Detailed explanation goes here
+    %时间系统类，初始化输入协调世界时（UTC）和地理经度，属性包含常用时间
+    %  协调世界时可为数组，地理经度需要是标量
     
     properties
         UTC %协调世界时，datatime
