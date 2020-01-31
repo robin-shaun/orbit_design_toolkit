@@ -1,5 +1,5 @@
 classdef usingSinglePosVel
-    %根据初始位置和初始速度，确定轨道六要素
+    %根据初始位置和初始速度，确定轨道要素
     properties
         a %半长轴
         e_ %偏心率矢量
