@@ -13,7 +13,7 @@ classdef Preprocessing
         Delevation %仰角变化率，数组，rad/s
         Ddistance %航天器与测站的距离变化率，数组，m/s
         stationPos %测站位置（在地心惯性系下），数组，m
-        spacecraftDir %航天器方向余弦（测站地平坐标系下），数组
+        spacecraftDir %航天器方向余弦（在地心惯性系下），数组
         spacecraftPos %航天器位置（在地心惯性系下），数组，m
         spacecraftVel %航天器速度（在地心惯性系下），数组，m/s
     end
@@ -34,9 +34,9 @@ classdef Preprocessing
                 obj.Delevation = Edot(i);
                 obj.Ddistance = Ddot(i);
                 obj.stationPos(:,i) = obj.stationpos();
-                obj.spacecraftDir(:,i) = obj.spacecraftdir();
                 C = coordinateTransformation.station2inertial(obj.s*180/pi,obj.Glatitude*180/pi);
-                obj.spacecraftPos(:,i) = obj.spacecraftpos(C,i);
+                obj.spacecraftDir(:,i) = obj.spacecraftdir(C);
+                obj.spacecraftPos(:,i) = obj.spacecraftpos(i);
                 obj.spacecraftVel(:,i) = obj.spacecraftvel(C,i);   
             end         
             obj.Glatitude = obj.Glatitude*180/pi;
@@ -60,13 +60,13 @@ classdef Preprocessing
             stationpos = [xe*cos(obj.s),xe*sin(obj.s),ze]';
         end
 
-        function spacecraftdir = spacecraftdir(obj)
-            spacecraftdir = [cos(obj.elevation)*sin(obj.azimuth);cos(obj.elevation)*cos(obj.azimuth);sin(obj.elevation)];
+        function spacecraftdir = spacecraftdir(obj,C)
+            spacecraftdir = C*[cos(obj.elevation)*sin(obj.azimuth);cos(obj.elevation)*cos(obj.azimuth);sin(obj.elevation)];
         end
         
-        function spacecraftpos = spacecraftpos(obj,C,i) 
+        function spacecraftpos = spacecraftpos(obj,i) 
             rou = obj.distance*obj.spacecraftDir(:,i);
-            spacecraftpos = obj.stationPos(:,i) + C*rou;
+            spacecraftpos = obj.stationPos(:,i) + rou;
         end
 
         function spacecraftvel = spacecraftvel(obj,C,i)

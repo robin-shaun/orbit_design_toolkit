@@ -2,7 +2,7 @@
 #该库使用Matlab的编写，面向对象编程，一共有X个库
 ## 0.单位制
 该工具包使用国际制单位。为了设计者直观理解，角度用deg，deg转rad全部封装进了库里，不需要设计者考虑。
-## 1.天文学常数
+## 1.天文常数
 例如调用光速：`constants.AstroConstants.c`
 ## 2.时间系统
 时间系统对象的初始化输入为UTC(协调世界时间)和地理经度。时间数据类型为datetime或double（秒）。
@@ -87,7 +87,43 @@ ans =
         h: [3×1 double]
         p: 9.0675e+06
 ```
-### 3.3根据多组位置定轨
+### 3.3根据航天器方向定轨之拉普拉斯方法
+输入地心惯性坐标系下测站位置和航天器方向，以及当地真恒星时和初始时刻的UTC，求得轨道要素。
+```
+orbit_L = orbitDefine.LaplaceMethod(preprocessing.stationPos,preprocessing.spacecraftDir,timesystem.s)
+```
+```
+orbit_L = 
+
+  LaplaceMethod with properties:
+
+    r0: [3×1 double]
+    v0: [3×1 double]
+```
+```
+orbitDefine.usingSinglePosVel(orbit_L.r0,orbit_L.v0,timesystem.UTC(1))
+```
+```
+orbit_L = 
+
+  LaplaceMethod with properties:
+
+       r0: [3×1 double]
+       v0: [3×1 double]
+        a: 8.2619e+06
+        e: 0.0456
+    Omega: 60.2791
+    omega: 129.6670
+        i: 54.9207
+      tao: 2019-11-27 19:53:45
+       f0: 217.5681
+       E0: 219.1920
+       M0: 220.8440
+```
+### 3.4根据航天器方向定轨之高斯方法
+
+### 3.5根据多组位置定轨
+输入地心惯性坐标系下航天器位置，以及初始时刻的UTC，求得轨道要素。
 ```
 orbit=orbitDefine.usingMultiPos(preprocessing.spacecraftPos,UTC)
 

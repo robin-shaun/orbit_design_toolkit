@@ -45,6 +45,7 @@ classdef usingSinglePosVel
                 u=(u)*180/pi;
             end
             obj.f0=u-obj.omega;
+            obj.f0=obj.f0/180*pi;
             obj.E0 = 2*atan(tan(obj.f0/2)*sqrt((1-obj.e)/(1+obj.e)));
             if(abs(obj.E0-obj.f0)>pi/2)
                 if(abs(obj.E0+pi-obj.f0)>pi/2)
@@ -55,6 +56,9 @@ classdef usingSinglePosVel
             end
             obj.M0 = obj.E0-obj.e*sin(obj.E0);
             obj.tao = UTC-obj.M0*sqrt(obj.a^3/AstroConstants.GM)/3600/24;
+            obj.f0 = obj.f0*180/pi;
+            obj.E0 = obj.E0*180/pi;
+            obj.M0 = obj.M0*180/pi;
         end
     end
 end
