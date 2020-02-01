@@ -1,5 +1,7 @@
 # 轨道设计工具包
 #该库使用Matlab的编写，面向对象编程，一共有X个库
+## 0.单位制
+该工具包使用国际制单位。为了设计者直观理解，角度用deg，deg转rad全部封装进了库里，不需要设计者考虑。
 ## 1.天文学常数
 例如调用光速：`constants.AstroConstants.c`
 ## 2.时间系统
@@ -43,11 +45,11 @@ timesystem =
 
 注意，纬度和海拔数据必须是标量，其余可以是数组
 ```
-observationstation = orbitDefine.ObservationStation(latitude,timesystem.s/3600*15,altitude,azimuth,elevation,distance,Dazimuth,Delevation,Ddistance)
+preprocessing = orbitDefine.Preprocessing(latitude,timesystem.s/3600*15,altitude,azimuth,elevation,distance,Dazimuth,Delevation,Ddistance)
 
-observationstation = 
+preprocessing = 
 
-  ObservationStation with properties:
+  Preprocessing with properties:
 
         Glatitude: 0.1024
                 s: [30×1 double]
@@ -87,7 +89,7 @@ ans =
 ```
 ### 3.3根据多组位置定轨
 ```
-orbit=orbitDefine.usingMultiPos(observationstation.spacecraftPos,UTC)
+orbit=orbitDefine.usingMultiPos(preprocessing.spacecraftPos,UTC)
 
 orbit = 
 

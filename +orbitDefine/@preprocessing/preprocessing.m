@@ -35,7 +35,7 @@ classdef Preprocessing
                 obj.Ddistance = Ddot(i);
                 obj.stationPos(:,i) = obj.stationpos();
                 obj.spacecraftDir(:,i) = obj.spacecraftdir();
-                C = coordinateTransformation.station2inertial(obj.s,obj.Glatitude);
+                C = coordinateTransformation.station2inertial(obj.s*180/pi,obj.Glatitude*180/pi);
                 obj.spacecraftPos(:,i) = obj.spacecraftpos(C,i);
                 obj.spacecraftVel(:,i) = obj.spacecraftvel(C,i);   
             end         
