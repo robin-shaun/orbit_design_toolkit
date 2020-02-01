@@ -1,6 +1,4 @@
 function C = station2inertial(s,B)
-% æµ‹ç«™åœ°å¹³åæ ‡ç³»åˆ°åœ°å¿ƒæƒ¯æ€§åæ ‡ç³»çš„è½¬æ¢,è¾“å…¥å•ä½ä¸ºdeg
-s = s/180*pi;
-B = B/180*pi;
-C=[-sin(s),-cos(s)*sin(B),cos(s)*cos(B);cos(s),-sin(s)*sin(B),sin(s)*cos B;0,cos(B),sin(B)];
+% ²âÕ¾µØÆ½×ø±êÏµµ½µØĞÄ¹ßĞÔ×ø±êÏµµÄ×ª»»,ÊäÈëµ¥Î»Îªrad
+C=[-sin(s),-cos(s)*sin(B),cos(s)*cos(B);cos(s),-sin(s)*sin(B),sin(s)*cos(B);0,cos(B),sin(B)];
 end

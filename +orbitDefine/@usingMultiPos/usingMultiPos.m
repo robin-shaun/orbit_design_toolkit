@@ -32,8 +32,9 @@ classdef usingMultiPos
             
             %2.确定圆锥曲线（半长轴、偏心率和近心点角距）
             %求航天器在经过前两次旋转后的坐标系下的坐标
-            Mi1 = [1,0,0;0,cos(obj.i),sin(obj.i);0,-sin(obj.i),cos(obj.i)];
-            MOmega3 = [cos(obj.Omega),sin(obj.Omega),0;-sin(obj.Omega),cos(obj.Omega),0;0,0,1];
+            transform = coordinateTransformation.inertial2orbit(obj.Omega,obj.i,0);
+            Mi1= transform.Mi1;
+            MOmega3 = transform.MOmega3;
             newpos = (Mi1*MOmega3*spacecraftpos')';
             newpos = newpos(:,1:2);
             %利用最小二乘法求偏心率矢量和半通径
@@ -61,7 +62,7 @@ classdef usingMultiPos
             end
             obj.M0 = obj.E0-obj.e*sin(obj.E0);
             obj.tao = UTC(1)-obj.M0*sqrt(obj.a^3/AstroConstants.GM)/3600/24;
-            
+
             %单位转换
             obj.i = obj.i*180/pi;
             obj.Omega = obj.Omega*180/pi;
