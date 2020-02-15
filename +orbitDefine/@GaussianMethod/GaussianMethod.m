@@ -4,22 +4,24 @@ classdef GaussianMethod
     properties
         a %半长轴
         e %偏心率
-        Omega %升交点经度
         omega %近心点角距
+        Omega %升交点经度
         i %轨道倾角
         tao %过近心点时刻
         f0 %初始真近点角
         E0 %初始偏近点角
         M0 %初始平近点角
         spacecraftPos %中间时刻航天器位置坐标
+        iteration %迭代次数
     end
     
     methods
         %高斯法求解中间时刻卫星位置、速度
-        function obj = GaussianMethod(R, rh0, s, UTC, eps_kai)
+        function obj = GaussianMethod(R, rh0, s, UTC, eps_kai, omega_n)
         %%
-            DU=6378136.6;                   %归一化单位长度，地球赤道平均长度          
-            TU=806.811048;                  %归一化单位时间 
+            import constants.AstroConstants
+            DU = AstroConstants.ae; %归一化单位长度，地球赤道平均长度                          
+            TU=sqrt(DU^3/AstroConstants.GM); %归一化单位时间 
             R = R/DU;
             s = s/TU;
             tau1=s(1)-s(2);tau3=s(3)-s(2);tau=s(3)-s(1);
@@ -89,7 +91,7 @@ classdef GaussianMethod
               F1_new=1-U2_1/r2; G1_new=(r2*U1_1+sigma2*U2_1);%更新F1 G1 F3 G3
               F3_new=1-U2_3/r2; G3_new=(r2*U1_3+sigma2*U2_3);
 
-              omega_n=0.7;     %权系数修正F1 G1 F3 G3,使迭代更快收敛
+%               omega_n=0.3;     %加权系数修正F1 G1 F3 G3,使迭代更快收敛?
               F1=omega_n*F1+(1-omega_n)*F1_new;
               G1=omega_n*G1+(1-omega_n)*G1_new;
               F3=omega_n*F3+(1-omega_n)*F3_new;
@@ -98,11 +100,12 @@ classdef GaussianMethod
               c3=-G1/(F1*G3-F3*G1);
               rh2_new=c1*D(2,1)-D(2,2)+c3*D(2,3);
               if abs(rh2_new-rh2)*DU<1e-4     %收敛条件为rho2误差小于1米
-                  obj.spacecraftPos = [r_1,r_2,r_3]*DU;
+                  obj.spacecraftPos = [r_1,r_2,r_3]'*DU;
                   break
               end
               k=k+1;
             end
+            obj.iteration = k;
             orbit = orbitDefine.usingSinglePosVel(r_2*DU,v_2*DU/TU,UTC(2));
             obj.a = orbit.a;
             obj.e = orbit.e;

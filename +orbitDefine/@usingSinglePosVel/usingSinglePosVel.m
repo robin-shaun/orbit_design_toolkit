@@ -4,8 +4,8 @@ classdef usingSinglePosVel
         a %半长轴
         e_ %偏心率矢量
         e %偏心率
-        Omega %升交点经度
         omega %近心点角距
+        Omega %升交点经度
         i %轨道倾角
         tao %过近心点时刻
         f0 %初始真近点角

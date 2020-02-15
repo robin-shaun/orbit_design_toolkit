@@ -6,8 +6,8 @@ classdef usingMultiPos
     properties
         a %半长轴
         e %偏心率
-        Omega %升交点经度
         omega %近心点角距
+        Omega %升交点经度
         i %轨道倾角
         tao %过近心点时刻
         f0 %序列首历元的真近点角
@@ -23,7 +23,7 @@ classdef usingMultiPos
             %1.确定轨道面
             %利用最小二乘法求解轨道面法向量
             %设轨道平面：nx*x+ny*y+z=0,(nx,ny,1)为法向量
-            A = [spacecraftpos(:,1),spacecraftpos(:,2)];
+            A = spacecraftpos(:,1:2);
             b = -spacecraftpos(:,3);
             n_xy = lsqminnorm(A,b,'warn');
             n = [n_xy;1];
@@ -37,7 +37,7 @@ classdef usingMultiPos
             MOmega3 = transform.MOmega3;
             newpos = (Mi1*MOmega3*spacecraftpos')';
             newpos = newpos(:,1:2);
-            %利用最小二乘法求偏心率矢量和半通径
+            %利用最小二乘法求偏心率矢量和半通径(3-2-21式)
             A = [newpos,-ones(length(newpos(:,1)),1)];
             b = -vecnorm(newpos')';
             tmp = lsqminnorm(A,b,'warn');
