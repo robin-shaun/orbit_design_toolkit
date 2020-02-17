@@ -4,7 +4,7 @@ classdef Preprocessing
     
     properties
         Glatitude %地理纬度，标量，deg
-        s %当地真恒星时，数组，秒
+        s %当地真恒星时，数组，deg
         altitude %当地海拔，标量，m
         azimuth %方位角，数组，deg
         elevation %仰角（高低角），数组，deg
